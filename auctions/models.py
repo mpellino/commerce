@@ -7,10 +7,21 @@ class User(AbstractUser):
 
 
 class AuctionListing(models.Model):
-    pass
+    product = models.CharField(max_length=255)
+    description = models.TextField()
+    category = models.CharField(max_length=255)
+    initial_price = models.PositiveIntegerField(default=0)
+    sold = models.BooleanField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.product
+    
+    def get_absolute_url(self):
+        reverse('auction_list')
 
 
-class Bid(models.Modelodel):
+class Bid(models.Model):
     pass
 
 
