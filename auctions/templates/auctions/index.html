@@ -3,8 +3,9 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    {% for listing in product %}
-        <p>{{ listing.product }}</p>
+    {% for listing in products %}
+        <li><a href="{% url 'listing_detail' listing.id %}">{{ listing.product }}</a> </li>
+
     {% endfor %}
 
-{% endblock %}
+{% endblock body%}

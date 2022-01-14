@@ -8,10 +8,16 @@ from .models import User, AuctionListing
 
 
 def index(request):
-
     return render(request, "auctions/index.html", {
-        "product": AuctionListing.objects.all()
+        "products": AuctionListing.objects.all()
     } )
+
+
+def listing_detail(request, listing_id):
+    listing = AuctionListing.objects.get(id=listing_id)
+    return render(request, "auctions/listing_detail.html", {
+        "listing": listing
+    })
 
 
 def login_view(request):
