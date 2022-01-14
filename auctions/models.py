@@ -8,10 +8,10 @@ class User(AbstractUser):
 
 class AuctionListing(models.Model):
     product = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(default="none")
     category = models.CharField(max_length=255)
     initial_price = models.PositiveIntegerField(default=0)
-    sold = models.BooleanField()
+    sold = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
