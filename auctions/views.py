@@ -3,7 +3,9 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django import forms
 
+from.forms import AddListingForm
 from .models import User, AuctionListing
 
 
@@ -16,8 +18,21 @@ def index(request):
 def listing_detail(request, listing_id):
     listing = AuctionListing.objects.get(id=listing_id)
     return render(request, "auctions/listing_detail.html", {
-        "listing": listing
+        "listing": listing  
     })
+
+
+def listing_add(request):
+    form = AddListingForm()
+
+    if request.method == "POST":
+        form = AddListingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('index'))
+    context = {'form': form}
+    return render(request, "auctions/listing_add.html", context)
+
 
 
 def login_view(request):
