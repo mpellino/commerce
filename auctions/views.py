@@ -6,7 +6,7 @@ from django.urls import reverse
 from django import forms
 
 from.forms import AddListingForm
-from .models import User, AuctionListing
+from .models import User, AuctionListing, Comments
 
 
 def index(request):

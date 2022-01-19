@@ -27,13 +27,14 @@ class Bid(models.Model):
 
 
 class Comments(models.Model):
-    product = models.ForeignKey(AuctionListing, on_delete=models.CASCADE, default=None)
+    product = models.ForeignKey(AuctionListing, related_name="comments", on_delete=models.CASCADE, default=None)
     comment = models.CharField(max_length=140 , default=None)
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         default=None
     )
+    date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.comment
