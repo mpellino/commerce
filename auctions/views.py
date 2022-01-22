@@ -1,11 +1,11 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
 
-from.forms import AddListingForm
+from.forms import AddListingForm, AddCommentForm
 from .models import User, AuctionListing, Comments
 
 
@@ -16,9 +16,11 @@ def index(request):
 
 
 def listing_detail(request, listing_id):
+    print(listing_id)
     listing = AuctionListing.objects.get(id=listing_id)
+    print(listing)
     return render(request, "auctions/listing_detail.html", {
-        "listing": listing  
+        "listing": listing
     })
 
 
@@ -33,6 +35,23 @@ def listing_add(request):
     context = {'form': form}
     return render(request, "auctions/listing_add.html", context)
 
+
+def comment_add(request, listing_id):
+    pass
+
+    form = AddCommentForm()
+
+    if request.method == "POST":
+        form = AddCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.product = AuctionListing.objects.get(pk=listing_id)
+            comment.comment = form.cleaned_data['comment']
+            comment.author = request.user
+            form.save()
+            return HttpResponseRedirect(reverse('index'))
+    context = {'form': form}
+    return render(request, 'auctions/comment_add.html', context)
 
 
 def login_view(request):

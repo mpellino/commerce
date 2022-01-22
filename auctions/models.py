@@ -32,7 +32,8 @@ class Comments(models.Model):
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
-        default=None
+        default=None,
+        related_name="author"
     )
     date_added = models.DateTimeField(auto_now_add=True)
 

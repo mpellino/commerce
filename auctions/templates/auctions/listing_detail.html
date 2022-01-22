@@ -3,6 +3,22 @@
 {% block body %}
     <h2>Listing:</h2>
 
-    {{listing.product}} | {{listing.description}}  <!-- TODO
-
+    {{listing.product}} | {{listing.description}}
+    <br/>
+    <h4> Comments: </h4>
+    <br/>
+   <a href="{% url 'comment_add' listing.pk %}">Add comment</a>
+    <br/>
+    {% if not listing.comments.all %}
+        No comments yet...
+        Add one
+    {% else %}
+        {% for comment in listing.comments.all %}
+        <strong>
+            {{comment.author}} - {{comment.date_added}}
+        </strong>
+        <br/>
+        {{ comment.comment }}
+        {% endfor %}
+    {% endif %}
 {% endblock %}
