@@ -43,5 +43,24 @@ class Comments(models.Model):
     def get_absolute_url(self):
         return reverse('index')
 
+
+class Bid(models.Model):
+    value = models.PositiveIntegerField(default=None)
+    product = models.ForeignKey(AuctionListing, related_name="bid", on_delete=models.CASCADE, default=None)
+    author = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        default=None,
+        related_name="bid"
+    )
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment
+
+    def get_absolute_url(self):
+        return reverse('index')
+
+
 class AuctionWinner(models.Model):
     pass

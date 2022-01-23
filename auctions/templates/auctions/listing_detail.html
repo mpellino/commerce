@@ -1,17 +1,18 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Listing:</h2>
+    <h1>Listing:</h1>
 
-    {{listing.product}} | {{listing.description}}
-    <br/>
+    <h2>{{listing.product}} </h2>
+    <small>{{listing.description}}</small>
+    <br/><br/>
+
     <h4> Comments: </h4>
     <br/>
    <a href="{% url 'comment_add' listing.pk %}">Add comment</a>
     <br/>
     {% if not listing.comments.all %}
         No comments yet...
-        Add one
     {% else %}
         {% for comment in listing.comments.all %}
         <strong>
@@ -19,6 +20,7 @@
         </strong>
         <br/>
         {{ comment.comment }}
+        <br/><br/>
         {% endfor %}
     {% endif %}
 {% endblock %}
