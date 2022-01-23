@@ -14,7 +14,7 @@ class AddCommentForm(ModelForm):
         exclude = ('author', 'product')
 
 
-class AddBid(ModelForm):
+class AddBidForm(ModelForm):
     class Meta:
         model = Bid
         exclude = ('author', 'product')
