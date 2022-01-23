@@ -37,8 +37,7 @@ def listing_add(request):
 
 
 def comment_add(request, listing_id):
-    pass
-
+   
     form = AddCommentForm()
 
     if request.method == "POST":
@@ -52,6 +51,10 @@ def comment_add(request, listing_id):
             return HttpResponseRedirect(reverse('index'))
     context = {'form': form}
     return render(request, 'auctions/comment_add.html', context)
+
+
+def bid_add(request, product_id):
+    pass
 
 
 def login_view(request):

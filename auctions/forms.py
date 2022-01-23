@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import AuctionListing, Comments
+from .models import AuctionListing, Comments, Bid
 
 
 class AddListingForm(ModelForm):
@@ -11,5 +11,11 @@ class AddListingForm(ModelForm):
 class AddCommentForm(ModelForm):
     class Meta:
         model = Comments
+        exclude = ('author', 'product')
+
+
+class AddBid(ModelForm):
+    class Meta:
+        model = Bid
         exclude = ('author', 'product')
             
