@@ -6,7 +6,9 @@
     <h2>{{listing.product}} </h2>
     <small>{{listing.description}}</small>
     <br/><br/>
-
+    <h4>Bid</h4>
+    <a href="{% url 'bid_add' listing.pk %}">Bid for this product</a>
+    <br/>
     <h4> Comments: </h4>
     <br/>
    <a href="{% url 'comment_add' listing.pk %}">Add comment</a>

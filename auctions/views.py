@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django import forms
 
-from.forms import AddListingForm, AddCommentForm
+from.forms import AddListingForm, AddCommentForm, AddBidForm
 from .models import User, AuctionListing, Comments
 
 
@@ -53,8 +53,20 @@ def comment_add(request, listing_id):
     return render(request, 'auctions/comment_add.html', context)
 
 
-def bid_add(request, product_id):
-    pass
+def bid_add(request, listing_id):
+    form = AddBidForm()
+
+    if request.method == "POST":
+        form = AddBidForm(request.POST)
+        if form.is_valid():
+            bid = form.save(commit=False)
+            bid.product = AuctionListing.objects.get(pk=listing_id)
+            bid.author = request.user
+            bid.value = form.cleaned_data['value']
+            form.save()
+            return HttpResponseRedirect(reverse('index'))
+    context = {'form': form}
+    return render(request, 'auctions/bid_add.html', context)
 
 
 def login_view(request):
