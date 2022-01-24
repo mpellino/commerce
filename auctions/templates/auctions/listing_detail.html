@@ -9,6 +9,18 @@
     <h4>Bid</h4>
     <a href="{% url 'bid_add' listing.pk %}">Bid for this product</a>
     <br/>
+    {% if not listing.bid.all %}
+        No comments yet...
+    {% else %}
+        {% for bid in listing.bid.all %}
+        <strong>
+            {{bid.author}} - {{bid.date_added}}
+        </strong>
+        <br/>
+        {{ bid.value }}
+        <br/><br/>
+        {% endfor %}
+    {% endif %}
     <h4> Comments: </h4>
     <br/>
    <a href="{% url 'comment_add' listing.pk %}">Add comment</a>
