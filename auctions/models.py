@@ -16,14 +16,10 @@ class AuctionListing(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.product
+        return f"{self.product}"
     
     def get_absolute_url(self):
         reverse('auction_list')
-
-
-class Bid(models.Model):
-    pass
 
 
 class Comments(models.Model):
@@ -55,8 +51,11 @@ class Bid(models.Model):
     )
     date_added = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['date_added']
+
     def __str__(self):
-        return self.comment
+        return str(self.value)
 
     def get_absolute_url(self):
         return reverse('index')

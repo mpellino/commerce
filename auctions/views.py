@@ -4,9 +4,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
+from django.contrib import messages
+from django .db.models import Max
 
 from.forms import AddListingForm, AddCommentForm, AddBidForm
-from .models import User, AuctionListing, Comments
+from .models import User, AuctionListing, Comments, Bid
 
 
 def index(request):
@@ -16,9 +18,9 @@ def index(request):
 
 
 def listing_detail(request, listing_id):
-    print(listing_id)
+    #print(listing_id)
     listing = AuctionListing.objects.get(id=listing_id)
-    print(listing)
+    #print(listing)
     return render(request, "auctions/listing_detail.html", {
         "listing": listing
     })
@@ -26,7 +28,6 @@ def listing_detail(request, listing_id):
 
 def listing_add(request):
     form = AddListingForm()
-
     if request.method == "POST":
         form = AddListingForm(request.POST)
         if form.is_valid():
@@ -37,9 +38,7 @@ def listing_add(request):
 
 
 def comment_add(request, listing_id):
-   
     form = AddCommentForm()
-
     if request.method == "POST":
         form = AddCommentForm(request.POST)
         if form.is_valid():
@@ -53,21 +52,58 @@ def comment_add(request, listing_id):
     return render(request, 'auctions/comment_add.html', context)
 
 
-def bid_add(request, listing_id):
+def bid_add(request, listing_id): #see important lesson at the end.
     form = AddBidForm()
 
     if request.method == "POST":
-        form = AddBidForm(request.POST)
+        form = AddBidForm(request.POST or None)
         if form.is_valid():
+            author = request.user
+            product = AuctionListing.objects.get(id=listing_id)
+            initial_value = product.initial_price
             bid = form.save(commit=False)
-            bid.product = AuctionListing.objects.get(pk=listing_id)
-            bid.author = request.user
-            bid.value = form.cleaned_data['value']
+            bid_value = int(form.cleaned_data['value'])
+            #check if author is the same as the bidder
+
+            if author.id == product.user.id:
+                #print("same author")
+                return HttpResponseRedirect(reverse('index'))
+
+
+            #check if bid is lower than initial value.
+
+            if bid_value < initial_value:
+                #print(f"price too low to start{bid_value} <= {initial_value}")
+                return HttpResponseRedirect(reverse('index'))
+
+            #check if bid is lower than higher one
+
+            higher_bid = Bid.objects.filter(product=product).order_by('-value').values_list('value', flat =True)
+            print(higher_bid[0])
+            if int(bid_value) <= higher_bid[0]:
+                print(f"price too low {bid_value} <= {higher_bid[0]}")
+                return HttpResponseRedirect(reverse('index'))
+
             form.save()
-            return HttpResponseRedirect(reverse('index'))
+
+           
+
     context = {'form': form}
     return render(request, 'auctions/bid_add.html', context)
 
+'''
+            product = AuctionListing.objects.filter(id=listing_id).values("description")
+
+            #this output the queryset
+            product2 = AuctionListing.objects.filter(id=listing_id).values_list('description')
+
+            #this output a tuple
+            product3 = AuctionListing.objects.values_list("description").get(id=listing_id)
+
+            #this is what i want!
+            product4 = AuctionListing.objects.get(id=listing_id)
+            #print(f"{product[0]['description']} - {product2} - {product3} - {product4.description}")
+'''
 
 def login_view(request):
     if request.method == "POST":
