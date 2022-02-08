@@ -1,6 +1,11 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+        {% endfor %}
+    {% endif %}
     <form action="" method="post">{% csrf_token %}
         {{ form.as_p }}
         <input type="submit">
