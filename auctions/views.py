@@ -106,6 +106,10 @@ def bid_add(request, listing_id):  # see important lesson at the end.
 '''
 
 
+def wishlist(request):
+    pass  #TODO
+
+
 def login_view(request):
     if request.method == "POST":
 

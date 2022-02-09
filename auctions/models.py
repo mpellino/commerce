@@ -61,5 +61,21 @@ class Bid(models.Model):
         return reverse('index')
 
 
+class WishList(models.Model):
+    product = models.ForeignKey(AuctionListing, related_name="wishlist", on_delete=models.CASCADE, default=None)
+    author = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        default=None,
+        related_name="wishlist"
+    )
+
+    def __str__(self):
+        return str(self.product)
+
+    def get_absolute_url(self):
+        return reverse('index')
+
+
 class AuctionWinner(models.Model):
     pass
