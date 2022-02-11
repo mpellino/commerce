@@ -7,6 +7,17 @@ class User(AbstractUser):
     pass
 
 
+class Wishlist_add(models.Model):
+    product = models.ForeignKey(AuctionListing, on_delete=model.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.product} on wishlist for {self.user}"
+
+    def get_absolute_url(self):
+        reverse('auction_list')
+
+
 class AuctionListing(models.Model):
     product = models.CharField(max_length=255)
     description = models.TextField(default="none")
@@ -14,6 +25,7 @@ class AuctionListing(models.Model):
     initial_price = models.PositiveIntegerField(default=0)
     sold = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
 
     def __str__(self):
         return f"{self.product}"

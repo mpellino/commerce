@@ -1,16 +1,30 @@
-from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse
 from django import forms
 from django.contrib import messages
-from django .db.models import Max
+from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
+from django.contrib.auth import login
+from django.contrib.auth import logout
+from django.db import IntegrityError
+from django.db.models import Max
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse
 
-from .models import User, AuctionListing, Comments, Bid
-from.forms import AddListingForm, AddCommentForm, AddBidForm
+from .forms import AddBidForm
+from .forms import AddCommentForm
+from .forms import AddListingForm
+from .models import AuctionListing
+from .models import Bid
+from .models import Comments
+from .models import User
 
 
+
+def wishlist_add(request,product_id):
+    product = get_object_or_404(Auctionlisting, pk=product_id)
+
+    
 def index(request):
     return render(request, "auctions/index.html", {
         "products": AuctionListing.objects.all()
