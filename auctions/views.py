@@ -23,14 +23,10 @@ from .models import Wishlist
 
 def wishlist_add(request, listing_id):
     '''
-    get user
-    get queryset from wishlist model
-    if user not w model.user
-        insert user and product id
-    else
-        get all w model.product for the user
-        if product id not w list for the user
-            insert product_if
+    get user and product id from Template
+    get queryset from wishlist model filtered by user and product
+    if queryset does not exist
+        add entry
     else
         remove entry
     '''
