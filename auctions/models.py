@@ -7,15 +7,7 @@ class User(AbstractUser):
     pass
 
 
-class Wishlist_add(models.Model):
-    product = models.ForeignKey(AuctionListing, on_delete=model.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.product} on wishlist for {self.user}"
-
-    def get_absolute_url(self):
-        reverse('auction_list')
 
 
 class AuctionListing(models.Model):
@@ -72,6 +64,18 @@ class Bid(models.Model):
     def get_absolute_url(self):
         return reverse('index')
 
+
+class Wishlist(models.Model):
+    product = models.ForeignKey(AuctionListing, related_name="wishlist_product",
+                                on_delete= models.CASCADE,
+                                null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.product} on wishlist for {self.user}"
+
+    def get_absolute_url(self):
+        reverse('auction_list')
 
 class AuctionWinner(models.Model):
     pass

@@ -18,11 +18,36 @@ from .models import AuctionListing
 from .models import Bid
 from .models import Comments
 from .models import User
+from .models import Wishlist
 
 
+def wishlist_add(request, listing_id):
+    '''
+    get user
+    get queryset from wishlist model
+    if user not w model.user
+        insert user and product id
+    else
+        get all w model.product for the user
+        if product id not w list for the user
+            insert product_if
+    else
+        remove entry
+    '''
 
-def wishlist_add(request,product_id):
-    product = get_object_or_404(Auctionlisting, pk=product_id)
+    user = request.user
+    filtered_user = Wishlist.objects.filter(user=user, product=listing_id)
+    if not filtered_user:
+        print(f"{user} , does not have {listing_id} in wishlist")
+        product = AuctionListing.objects.get(pk=listing_id)
+        entry = Wishlist(user=user, product=product)
+        entry.save()
+        return HttpResponseRedirect(reverse('index'))
+    else:
+        print(f"{user} has {listing_id}")
+        Wishlist.objects.filter(user=user, product=listing_id).delete()
+        return HttpResponseRedirect(reverse('index'))
+    #return user related wihslist product. ( I think this should be sent fomr the index view.
 
     
 def index(request):
