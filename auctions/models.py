@@ -66,13 +66,13 @@ class Bid(models.Model):
 
 
 class Wishlist(models.Model):
-    product = models.ForeignKey(AuctionListing, related_name="wishlist_product",
+    product = models.ForeignKey(AuctionListing, related_name="wishlist",
                                 on_delete= models.CASCADE,
                                 null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.product} on wishlist for {self.user}"
+        return f"{self.product}"
 
     def get_absolute_url(self):
         reverse('auction_list')

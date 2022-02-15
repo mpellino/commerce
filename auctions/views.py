@@ -47,15 +47,20 @@ def wishlist_add(request, listing_id):
 
     
 def index(request):
-    return render(request, "auctions/index.html", {
-        "products": AuctionListing.objects.all()
-    })
+    user = request.user
+    auction_listing_objects = AuctionListing.objects.all()
+    wishlist_objects = Wishlist.objects.filter(user=user)
+    print(wishlist_objects)
+    print(auction_listing_objects)
+    context = {"products": auction_listing_objects,
+               "wishlist_objects": wishlist_objects}
+    return render(request, "auctions/index.html", context)
 
 
 def listing_detail(request, listing_id):
     # print(listing_id)
     listing = AuctionListing.objects.get(id=listing_id)
-    # print(listing)
+    #print(listing)
     return render(request, "auctions/listing_detail.html", {
         "listing": listing
     })

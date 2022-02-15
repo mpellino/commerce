@@ -2,12 +2,14 @@
 
 {% block body %}
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
+<h2>Wishlist</h2>
+
+{% if wishlist_objects %}
+
+        {% for wishlist_object in wishlist_objects %}
+            <li><a href="{% url 'listing_detail' wishlist_object.product.id %}">{{ wishlist_object.product }}</a></li>
+        {% endfor %}
+
 {% endif %}
 
     <h2>Active Listings</h2>

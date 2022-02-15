@@ -13,7 +13,7 @@
     <a href="{% url 'bid_add' listing.pk %}">Bid for this product</a>
     <br/>
     {% if not listing.bid.all %}
-        No comments yet...
+        No bid yet...
     {% else %}
         {% for bid in listing.bid.all %}
         <strong>
