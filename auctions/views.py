@@ -45,15 +45,19 @@ def wishlist_add(request, listing_id):
         return HttpResponseRedirect(reverse('index'))
     #return user related wihslist product. ( I think this should be sent fomr the index view.
 
-    
+
+def wishlist(request):
+    user = request.user
+    wishlist_objects = Wishlist.objects.filter(user=user)
+    print(wishlist_objects)
+    context = {'wishlist_objects': wishlist_objects}
+    return render(request, 'auctions/wishlist.html', context)
+
+
 def index(request):
     user = request.user
     auction_listing_objects = AuctionListing.objects.all()
-    wishlist_objects = Wishlist.objects.filter(user=user)
-    print(wishlist_objects)
-    print(auction_listing_objects)
-    context = {"products": auction_listing_objects,
-               "wishlist_objects": wishlist_objects}
+    context = {"products": auction_listing_objects}
     return render(request, "auctions/index.html", context)
 
 

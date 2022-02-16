@@ -1,0 +1,19 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h2>Watchlist</h2>
+
+{% if not wishlist_objects %}
+ <h1>There is someting here</h1>
+{% endif %}
+
+{% if wishlist_objects %}
+
+        {% for wishlist_object in wishlist_objects %}
+            <li><a href="{% url 'listing_detail' wishlist_object.product.id %}">{{ wishlist_object.product }}</a></li>
+        {% endfor %}
+
+{% endif %}
+
+{% endblock body%}
