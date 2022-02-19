@@ -22,7 +22,7 @@ class AddBidForm(ModelForm):
 
     class Meta:
         model = Bid
-        fields = '__all__'
+        fields = ['value']
 
     def clean_value(self, *args, **kwargs):
         value = self.cleaned_data['value']

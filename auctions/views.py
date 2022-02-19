@@ -105,20 +105,22 @@ def bid_add(request, listing_id):  # see important lesson at the end.
             author = request.user
             product = AuctionListing.objects.get(id=listing_id)
             initial_value = product.initial_price
-            form.save(commit=False)
+            bid = form.save(commit=False)
+            bid.author = author
+            bid.product = product
             bid_value = int(form.cleaned_data['value'])
             # check if author is the same as the bidder
 
             if author.id == product.user.id:
                 # print("same author")
                 messages.error(request, "your bid is not going to be registered: same user")
-                return HttpResponseRedirect(reverse('bid_add'))
+                return HttpResponseRedirect(reverse('bid_add', args=(listing_id,)))
 
             # check if bid is lower than initial value.
             if bid_value < initial_value:
                 # print(f"price too low to start{bid_value} <= {initial_value}")
                 messages.error(request, "You are bidding below the initial price")
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(reverse('bid_add', args=(listing_id,)))
 
             # check if bid is lower than higher one
             higher_bid = Bid.objects.filter(product=product).order_by('-value').values_list('value', flat=True)
@@ -126,11 +128,11 @@ def bid_add(request, listing_id):  # see important lesson at the end.
                 if int(bid_value) <= higher_bid[0]:
                     print(f"price too low {bid_value} <= {higher_bid[0]}")
                     messages.error(request, "You are bidding below the higher bid")
-                    return HttpResponseRedirect(reverse('index'))
+                    return HttpResponseRedirect(reverse('bid_add', args=(listing_id,)))
 
-            form.save()
+            bid.save()
             messages.success(request,"Bid successfully added, good luck!")
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('bid_add', args=(listing_id,)))
     context = {'form': form}
     return render(request, 'auctions/bid_add.html', context)
 
