@@ -1,5 +1,6 @@
 from django.urls import path
-
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -13,4 +14,4 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("<int:listing_id>/wishlist_add", views.wishlist_add, name="wishlist_add"),
     path("wishlist", views.wishlist, name="wishlist")
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

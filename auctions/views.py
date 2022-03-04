@@ -73,7 +73,7 @@ def listing_detail(request, listing_id):
 def listing_add(request):
     form = AddListingForm()
     if request.method == "POST":
-        form = AddListingForm(request.POST)
+        form = AddListingForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('index'))
@@ -127,7 +127,7 @@ def bid_add(request, listing_id):  # see important lesson at the end.
             if higher_bid:
                 if int(bid_value) <= higher_bid[0]:
                     print(f"price too low {bid_value} <= {higher_bid[0]}")
-                    messages.error(request, "You are bidding below the higher bid")
+                    messages.error(request, "You are bidding below the highest bid")
                     return HttpResponseRedirect(reverse('bid_add', args=(listing_id,)))
 
             bid.save()

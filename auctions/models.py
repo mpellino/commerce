@@ -17,6 +17,7 @@ class AuctionListing(models.Model):
     initial_price = models.PositiveIntegerField(default=0)
     sold = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(null=True, blank=True, upload_to='images/')
     
 
     def __str__(self):

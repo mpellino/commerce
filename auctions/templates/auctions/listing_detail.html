@@ -2,6 +2,10 @@
 
 {% block body %}
     <h1>Listing:</h1>
+    {% if listing.image %}
+        <img src="{{ listing.image.url }}"
+        width = 500>
+    {% endif %}
 
     <h2>{{listing.product}} </h2>
     <small>{{listing.description}}</small>
