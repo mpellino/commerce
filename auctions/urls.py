@@ -13,5 +13,6 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path("<int:listing_id>/wishlist_add", views.wishlist_add, name="wishlist_add"),
-    path("wishlist", views.wishlist, name="wishlist")
+    path("wishlist", views.wishlist, name="wishlist"),
+    path("category", views.category_list, name="category")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

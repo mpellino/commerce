@@ -19,6 +19,13 @@ from .models import Bid
 from .models import Comments
 from .models import User
 from .models import Wishlist
+from .models import Category
+
+
+def category_list(request):
+    category_list = Category.objects.all()
+    context = {'category_list': category_list}
+    return render(request, 'auctions/category_list.html', context)
 
 
 def wishlist_add(request, listing_id):
