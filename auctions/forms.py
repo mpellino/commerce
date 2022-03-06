@@ -1,15 +1,27 @@
-from django.forms import ModelForm
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
-from .models import AuctionListing, Comments, Bid
 
+from .models import AuctionListing
+from .models import Bid
+from .models import Category
+from .models import Comments
+
+choice = Category.objects.all().values_list('name', 'name')
+choice_list = []
+
+for item in choice:
+    choice_list.append(item)
 
 class AddListingForm(ModelForm):
     class Meta:
         model = AuctionListing
         fields = '__all__'
-        
+
+        widgets = {
+            'category': forms.Select(choices = choice_list, attrs={'class': 'form-control'}),
+        }
         
 class AddCommentForm(ModelForm):
     class Meta:

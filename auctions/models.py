@@ -7,8 +7,14 @@ class User(AbstractUser):
     pass
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f"{self.name}"
 
+    def get_absolute_url(self):
+        reverse('auction_list')
 
 class AuctionListing(models.Model):
     product = models.CharField(max_length=255)
