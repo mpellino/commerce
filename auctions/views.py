@@ -25,8 +25,9 @@ from .models import Category
 def category_detail(request, category_id):
     category=Category.objects.get(id=category_id)
     list_of_items = AuctionListing.objects.filter(category=category).all()
-    print(list_of_items)
-    return render(request,"auctions/index.html")
+    print(list(list_of_items))
+    context = {'category': category, 'list_of_items': list_of_items}
+    return render(request,"auctions/category_detail.html", context)
 
 def category_list(request):
     category_list = Category.objects.all()
