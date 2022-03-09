@@ -8,14 +8,18 @@
         width = 500>
     {% endif %}
 
-    <h2>{{listing.product}} </h2>
+    <h2>{{listing.product}} by: {{listing.user}}</h2>
     <small>{{listing.description}}</small>
     <p>category</p>
-        {{listing.category}}
+
     <br/><br/>
+    {% if listing.user.id == user.id%}
+        <button class="btn btn-secondary"> Close Bid</button>
+    {% endif %}
     <h3>Wishlist</h3>
     <a href="{% url 'wishlist_add' listing.pk %}">Add to wishlist</a>
     <br/>
+
     <h4>Bid</h4>
     <a href="{% url 'bid_add' listing.pk %}">Bid for this product</a>
     <br/>
