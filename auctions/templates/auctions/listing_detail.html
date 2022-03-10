@@ -3,6 +3,9 @@
 {% block body %}
 
     <h1>Listing:</h1>
+    {% if message %}
+        <strong>{{message}}</strong>
+    {% endif %}
     {% if listing.image %}
         <img src="{{ listing.image.url }}"
         width = 500>
@@ -14,10 +17,9 @@
 
     <br/><br/>
     {% if listing.user.id == user.id%}
-        <button class="btn btn-secondary"> Close Bid</button>
+        <a href="{% url 'close_bid' listing.id %}" class="btn btn-secondary" >Close Bid</a>
     {% endif %}
-    <h3>Wishlist</h3>
-    <a href="{% url 'wishlist_add' listing.pk %}">Add to wishlist</a>
+        <a href="{% url 'wishlist_add' listing.pk %}" class="btn btn-secondary">Add to wishlist</a>
     <br/>
 
     <h4>Bid</h4>

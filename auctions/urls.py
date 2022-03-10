@@ -15,5 +15,6 @@ urlpatterns = [
     path("<int:listing_id>/wishlist_add", views.wishlist_add, name="wishlist_add"),
     path("wishlist", views.wishlist, name="wishlist"),
     path("category", views.category_list, name="category"),
-    path("<int:category_id>/category_detail", views.category_detail, name="category_detail")
+    path("<int:category_id>/category_detail", views.category_detail, name="category_detail"),
+    path("<int:listing_id>/close_bid", views.close_bid, name="close_bid")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

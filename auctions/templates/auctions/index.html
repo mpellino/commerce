@@ -7,9 +7,9 @@
     {% for listing in products %}
         <li><a href="{% url 'listing_detail' listing.id %}">{{ listing.product }}</a> </li>
         {% if listing.image %}
-        <img src="{{ listing.image.url }}"
-        width = 250>
-    {% endif %}
+            <img src="{{ listing.image.url }}"
+            width = 250>
+        {% endif %}
 
 
     {% endfor %}

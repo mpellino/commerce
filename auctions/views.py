@@ -22,6 +22,15 @@ from .models import Wishlist
 from .models import Category
 
 
+def close_bid(request, listing_id):
+    listing = AuctionListing.objects.get(id=listing_id)
+    listing.sold = True
+    listing.save()
+
+
+    return render(request, "auctions/index.html")
+
+
 def category_detail(request, category_id):
     category=Category.objects.get(id=category_id)
     list_of_items = AuctionListing.objects.filter(category=category).all()
@@ -75,10 +84,20 @@ def index(request):
     return render(request, "auctions/index.html", context)
 
 
-def listing_detail(request, listing_id):
+def listing_detail(request, listing_id): #TODO: ADD CLOSING BID LOGIC HERE
     # print(listing_id)
     listing = AuctionListing.objects.get(id=listing_id)
-    #print(listing)
+    print(listing)
+    if listing.sold == True:
+        bid = Bid.objects.filter(product=listing).latest('value')
+        if request.user == bid.author:
+            message = "Congratulation, you won the bid!"
+            return render(request, "auctions/listing_detail.html", {
+                "listing": listing,
+                "message": message
+            })
+        
+        #higher_bid = Bid.objects.filter(product=product).order_by('-value').values_list('value', flat=True)
     return render(request, "auctions/listing_detail.html", {
         "listing": listing
     })
