@@ -12,33 +12,32 @@
     {% endif %}
 
     <h2>{{listing.product}} by: {{listing.user}}</h2>
-    <small>{{listing.description}}</small>
-    <p>category</p>
+    <small>Description: {{listing.description}}</small> <br>
+    <small>Category: {{listing.category}}</small> <br>
+    <small>Starting Price: {{listing.initial_price}}</small>
+
+
 
     <br/><br/>
     {% if listing.user.id == user.id%}
         <a href="{% url 'close_bid' listing.id %}" class="btn btn-secondary" >Close Bid</a>
     {% endif %}
         <a href="{% url 'wishlist_add' listing.pk %}" class="btn btn-secondary">Add to wishlist</a>
-    <br/>
-
-    <h4>Bid</h4>
-    <a href="{% url 'bid_add' listing.pk %}">Bid for this product</a>
+    <a href="{% url 'bid_add' listing.pk %}"class="btn btn-secondary" >Bid for this product</a>
     <br/>
     {% if not listing.bid.all %}
         No bid yet...
     {% else %}
         {% for bid in listing.bid.all %}
-        <strong>
-            {{bid.author}} - {{bid.date_added}}
-        </strong>
-        <br/>
-        {{ bid.value }}
-        <br/><br/>
+    <br/>
+    <strong>Bid history:</strong>
+    <br/>
+        <i>
+            {{bid.author}} bid {{ bid.value }} MegaDollars on {{bid.date_added}}
+        </i>
         {% endfor %}
     {% endif %}
     <h4> Comments: </h4>
-    <br/>
    <a href="{% url 'comment_add' listing.pk %}">Add comment</a>
     <br/>
     {% if not listing.comments.all %}

@@ -26,8 +26,6 @@ def close_bid(request, listing_id):
     listing = AuctionListing.objects.get(id=listing_id)
     listing.sold = True
     listing.save()
-
-
     return render(request, "auctions/index.html")
 
 
@@ -106,9 +104,13 @@ def listing_detail(request, listing_id): #TODO: ADD CLOSING BID LOGIC HERE
 def listing_add(request):
     form = AddListingForm()
     if request.method == "POST":
-        form = AddListingForm(request.POST, request.FILES)
+        print(f"the user is {request.user.id}")
+        form = AddListingForm(request.POST)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.user = request.user
+            obj.save()
+            print(f"the form  is {obj}")
             return HttpResponseRedirect(reverse('index'))
     context = {'form': form}
     return render(request, "auctions/listing_add.html", context)

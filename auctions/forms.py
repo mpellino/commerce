@@ -18,7 +18,7 @@ class AddListingForm(ModelForm):
     class Meta:
         model = AuctionListing
         fields = '__all__'
-
+        exclude = ('sold', 'user',)
         widgets = {
             'category': forms.Select(choices = choice_list, attrs={'class': 'form-control'}),
         }
