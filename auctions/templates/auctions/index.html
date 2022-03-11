@@ -5,13 +5,19 @@
     <h2>Active Listings</h2>
 
     {% for listing in products %}
+        {% if listing.sold == False %}
         <li><a href="{% url 'listing_detail' listing.id %}">{{ listing.product }}</a> </li>
-        {% if listing.image %}
-            <img src="{{ listing.image.url }}"
-            width = 250>
+            {% if listing.image %}
+                <img src="{{ listing.image.url }}"
+                width = 250>
+            {% endif %}
         {% endif %}
+    {% endfor %}
 
-
+    {% for listing in products %}
+        {% if listing.sold == True %}
+            <li>{{ listing.product }} - Bid Closed </li>
+        {% endif %}
     {% endfor %}
 
 {% endblock body%}
