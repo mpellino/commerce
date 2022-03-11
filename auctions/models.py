@@ -18,7 +18,7 @@ class Category(models.Model):
 
 class AuctionListing(models.Model):
     product = models.CharField(max_length=255)
-    description = models.TextField(default="none")
+    description = models.TextField(null=True, blank=True)
     category = models.CharField(max_length=255)
     initial_price = models.PositiveIntegerField(default=0)
     sold = models.BooleanField(default=False)

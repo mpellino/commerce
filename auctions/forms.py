@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
+from django.forms import Textarea
 from django.utils.translation import ugettext_lazy as _
 
 from .models import AuctionListing
@@ -21,8 +22,13 @@ class AddListingForm(ModelForm):
         exclude = ('sold', 'user',)
         widgets = {
             'category': forms.Select(choices = choice_list, attrs={'class': 'form-control'}),
+            'description': Textarea(attrs={'cols': 30, 'rows': 5}),
+        }
+        labels = {
+            'description': _('Description'),
         }
         
+
 class AddCommentForm(ModelForm):
     class Meta:
         model = Comments

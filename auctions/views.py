@@ -8,6 +8,7 @@ from django.db import IntegrityError
 from django.db.models import Max
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -85,19 +86,26 @@ def index(request):
 def listing_detail(request, listing_id): #TODO: ADD CLOSING BID LOGIC HERE
     # print(listing_id)
     listing = AuctionListing.objects.get(id=listing_id)
+    try:
+        last_bid = Bid.objects.filter(product=listing).latest('value')
+    except:
+        last_bid = 0
     print(listing)
     if listing.sold == True:
-        bid = Bid.objects.filter(product=listing).latest('value')
-        if request.user == bid.author:
+        last_bid = Bid.objects.filter(product=listing).latest('value')
+        print(last_bid)
+        if request.user == last_bid.author:
             message = "Congratulation, you won the bid!"
             return render(request, "auctions/listing_detail.html", {
                 "listing": listing,
-                "message": message
+                "message": message,
+
             })
         
         #higher_bid = Bid.objects.filter(product=product).order_by('-value').values_list('value', flat=True)
     return render(request, "auctions/listing_detail.html", {
-        "listing": listing
+        "listing": listing,
+        "last_bid": last_bid,
     })
 
 

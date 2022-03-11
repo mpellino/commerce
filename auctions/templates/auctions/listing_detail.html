@@ -14,7 +14,9 @@
     <h2>{{listing.product}} by: {{listing.user}}</h2>
     <small>Description: {{listing.description}}</small> <br>
     <small>Category: {{listing.category}}</small> <br>
-    <small>Starting Price: {{listing.initial_price}}</small>
+    <small>Starting Price: {{listing.initial_price}}</small> <br>
+
+    <small>Current bid: {{last_bid}} </small>
 
 
 
@@ -22,7 +24,7 @@
     {% if listing.user.id == user.id%}
         <a href="{% url 'close_bid' listing.id %}" class="btn btn-secondary" >Close Bid</a>
     {% endif %}
-        <a href="{% url 'wishlist_add' listing.pk %}" class="btn btn-secondary">Add to wishlist</a>
+        <a href="{% url 'wishlist_add' listing.pk %}" class="btn btn-secondary">Add/Remove to Watchlist</a>
     <a href="{% url 'bid_add' listing.pk %}"class="btn btn-secondary" >Bid for this product</a>
     <br/>
     {% if not listing.bid.all %}
