@@ -6,7 +6,6 @@ from django.db import models
 class User(AbstractUser):
     pass
 
-
 class Category(models.Model):
     name = models.CharField(max_length=255)
 
@@ -15,6 +14,7 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         reverse('auction_list')
+
 
 class AuctionListing(models.Model):
     product = models.CharField(max_length=255)
@@ -84,5 +84,13 @@ class Wishlist(models.Model):
     def get_absolute_url(self):
         reverse('auction_list')
 
-class AuctionWinner(models.Model):
-    pass
+
+class Winner(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None, related_name="winner")
+    product = models.ForeignKey(AuctionListing, related_name="winner", on_delete=models.CASCADE, default=None)
+
+    def __str__(self):
+        return f"{self.name}"
+
+    def get_absolute_url(self):
+        reverse('auction_list')

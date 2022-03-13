@@ -21,12 +21,18 @@ from .models import Comments
 from .models import User
 from .models import Wishlist
 from .models import Category
-
+from .models import Winner
 
 def close_bid(request, listing_id):
     listing = AuctionListing.objects.get(id=listing_id)
     listing.sold = True
     listing.save()
+
+    #TODO save user id and product id in the winner model
+    last_bid = Bid.objects.filter(product=listing).latest('value')
+
+    winner = Winner(user= last_bid.author, product= listing_id)
+    winner.save()
     return render(request, "auctions/index.html")
 
 
@@ -92,7 +98,7 @@ def listing_detail(request, listing_id): #TODO: ADD CLOSING BID LOGIC HERE
         last_bid = 0
     print(listing)
     if listing.sold == True:
-        last_bid = Bid.objects.filter(product=listing).latest('value')
+#       last_bid = Bid.objects.filter(product=listing).latest('value')
         print(last_bid)
         if request.user == last_bid.author:
             message = "Congratulation, you won the bid!"

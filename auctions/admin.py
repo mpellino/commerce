@@ -8,6 +8,7 @@ from .models import Comments
 from .models import User
 from .models import Wishlist
 from .models import Category
+from .models import Winner
 
 admin.site.register(User, UserAdmin)
 
@@ -20,3 +21,5 @@ admin.site.register(Bid)
 admin.site.register(Wishlist)
 
 admin.site.register(Category)
+
+admin.site.register(Winner)
