@@ -10,11 +10,19 @@
             {% if listing.image %}
                 <img src="{{ listing.image.url }}"
                 width = 250>
+             <hr>
             {% endif %}
         {% endif %}
-    <hr>
     {% endfor %}
+     <hr>
+    {% if won_products %}
+        {% for won_product in won_products %}
+        <strong>Won bid:</strong>
+            <li>{{ won_product.product}}  </li>
+        {% endfor %}
+    {% endif %}
 
+    <strong>Closed Bid:</strong>
     {% for listing in products %}
         {% if listing.sold == True %}
             <li>{{ listing.product }} - Bid Closed </li>

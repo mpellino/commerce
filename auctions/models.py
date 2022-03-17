@@ -90,7 +90,7 @@ class Winner(models.Model):
     product = models.ForeignKey(AuctionListing, related_name="winner", on_delete=models.CASCADE, default=None)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.product}"
 
     def get_absolute_url(self):
         reverse('auction_list')

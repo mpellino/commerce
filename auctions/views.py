@@ -29,10 +29,12 @@ def close_bid(request, listing_id):
     listing.save()
 
     #TODO save user id and product id in the winner model
-    last_bid = Bid.objects.filter(product=listing).latest('value')
-
-    winner = Winner(user= last_bid.author, product= listing_id)
-    winner.save()
+    try:
+        last_bid = Bid.objects.filter(product=listing).latest('value')
+        winner = Winner(user= last_bid.author, product= listing)
+        winner.save()
+    except:
+        pass
     return render(request, "auctions/index.html")
 
 
@@ -85,7 +87,14 @@ def wishlist(request):
 def index(request):
     user = request.user
     auction_listing_objects = AuctionListing.objects.all()
+    try:
+        won_products = Winner.objects.filter(user=user).all()
+    except:
+        pass
+
     context = {"products": auction_listing_objects}
+    if won_products:
+        context.update({"won_products": won_products})
     return render(request, "auctions/index.html", context)
 
 
